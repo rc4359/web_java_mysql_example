@@ -39,6 +39,8 @@ public class LoginServlet extends HttpServlet {
         
             MySQLAccess sql_ac = new MySQLAccess();
             
+                sql_ac.select_db("php_sql_login");
+            
                 if(sql_ac.db_connect() == 1)
                 {    
         

@@ -44,8 +44,28 @@ public class LoginServlet extends HttpServlet {
                 if(sql_ac.db_connect() == 1)
                 {    
         
-                    RequestDispatcher rd = request.getRequestDispatcher("welcome.html");
-                    rd.forward(request, response);
+                    
+                    
+                    String username = request.getParameter("username");
+                    String password = request.getParameter("password");
+                        
+                    //sql_ac.retrive_string_from_integer()
+                    String db_password  = 
+                            sql_ac.retrieve_string_from_string("comments", "MYUSER", username, "password");
+                 
+                    System.out.print(" db_password --> " + db_password + "input pass -->" + password);
+                    
+                    if(db_password == null ? password == null : db_password.equals(password))
+                    {
+                        RequestDispatcher rd = request.getRequestDispatcher("welcome.html");
+                        rd.forward(request, response);
+                    }
+                    else
+                    {
+                        RequestDispatcher rd = request.getRequestDispatcher("auth_fail.html");
+                        rd.forward(request, response);
+                    }
+                    
                 }
    
             

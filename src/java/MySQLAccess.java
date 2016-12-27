@@ -2,7 +2,9 @@
 import com.sun.media.jfxmedia.logging.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,6 +20,10 @@ import java.sql.SQLException;
 public class MySQLAccess {
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
    static final String DB_URL = "jdbc:mysql://localhost/php_ajax";
+   
+   
+   static final int DATA_TYPE_INT =  0;
+   static final int DATA_TYPE_STR =  1;
 
    //  Database credentials
    static final String USER = "root";
@@ -90,5 +96,37 @@ public class MySQLAccess {
         System.out.println(" Database closed @@");
         return true;
     }
+ 
     
+   
+    
+    public String retrieve_string_from_string(String table, String where, String var, String field)
+    {
+        String s = null;
+
+        String aql_cmd = "SELECT * from " + table + " WHERE " + where + " = '" + var +"'";
+ 
+                
+        try{
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(aql_cmd);
+            
+            while (rs.next()) 
+            {                
+                s = rs.getString(field);
+      
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.print(" retrieve_string_from_integer can't get Statement !! ");
+        
+        }
+        
+        System.out.print(aql_cmd);
+        
+        return s;
+    }    
+
+
 }

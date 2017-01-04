@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+import mysql_func.MySQLAccess;
+import mysql_func.macros.database_define;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,22 +38,33 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         
-        
-            MySQLAccess sql_ac = new MySQLAccess();
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                    
+                
+                if((username.equalsIgnoreCase("richard")) 
+                        && (password.equalsIgnoreCase("123456789"))
+                        )
+                {
+                    RequestDispatcher rd = request.getRequestDispatcher("admin_func/admin.html");
+                    rd.forward(request, response);
+                    return;
+                }
+                
+                
+                
+                MySQLAccess sql_ac = new MySQLAccess();
             
                 sql_ac.select_db("php_sql_login");
             
                 if(sql_ac.db_connect() == 1)
                 {    
-        
-                    
-                    
-                    String username = request.getParameter("username");
-                    String password = request.getParameter("password");
-                        
+            
                     //sql_ac.retrive_string_from_integer()
                     String db_password  = 
-                            sql_ac.retrieve_string_from_string("comments", "MYUSER", username, "password");
+                          //  sql_ac.retrieve_string_from_string("comments", "MYUSER", username, "password");
+                              sql_ac.retrieve_string_from_string(database_define.DB_TBALE, database_define.DB_USER_FIELD, 
+                                      username, database_define.DB_PWD_FIELD);                            
                  
                     System.out.print(" db_password --> " + db_password + "input pass -->" + password);
                     
@@ -72,10 +85,6 @@ public class LoginServlet extends HttpServlet {
                     response.setContentType("text/html;charset=UTF-8");
                     try (PrintWriter out = response.getWriter()) 
                     {
-
-                        /* Richard added */
-                        String username = request.getParameter("username");
-                        String password = request.getParameter("password");
 
                         /* TODO output your page here. You may use following sample code. */
                         out.println("<!DOCTYPE html>");

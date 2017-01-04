@@ -1,5 +1,9 @@
+package mysql_func;
+
 
 import com.sun.media.jfxmedia.logging.Logger;
+import java.lang.Boolean;
+import static java.lang.Boolean.TRUE;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -100,11 +104,11 @@ public class MySQLAccess {
     
    
     
-    public String retrieve_string_from_string(String table, String where, String var, String field)
+    public String retrieve_string_from_string(String table, String where, String where_var, String field)
     {
         String s = null;
 
-        String aql_cmd = "SELECT * from " + table + " WHERE " + where + " = '" + var +"'";
+        String aql_cmd = "SELECT * from " + table + " WHERE " + where + " = '" + where_var +"'";
  
                 
         try{
@@ -128,5 +132,61 @@ public class MySQLAccess {
         return s;
     }    
 
+    public int creat_new_row(String table)
+    {
+        int id = 0;
+        //INSERT INTO `comments` VALUES (default,default,default,default,default,default,default,default);
+        String aql_cmd = "INSERT INTO `" + table +"` VALUES ()";
+        
+        if(conn == null)
+            db_connect();
+        
+        try
+        {
+            System.out.println("creat_new_row");
+            System.out.println("aql_cmd =" + aql_cmd );
+            Statement st = conn.createStatement();
+            id = st.executeUpdate(aql_cmd);
+        }
+        catch(Exception e)
+        {
+            System.out.println(" creat_new_row error !! ");
+            e.printStackTrace();
+        }
+        
+        
+       return id ;
+         
+    }
+    
+    public int get_newest_row_id(String private_key_id)
+    {
+        int id = -1;
+        
+       
+        
+        String sql_cmd = "SELECT * FROM comments ORDER BY id DESC LIMIT 1";
+        
+        try{
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql_cmd);
+            
+            while (rs.next()) 
+            {                
+                id = rs.getInt(private_key_id);
+      
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.print(" get_newest_row_id error  !! ");
+            e.printStackTrace();
+        }
+        
+        System.out.print(sql_cmd);
+        System.out.println("get_newest_row_id = " + id);
+        
+        return id;
+    }
 
 }

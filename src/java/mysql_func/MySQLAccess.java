@@ -104,7 +104,7 @@ public class MySQLAccess {
     
    
     
-    public String retrieve_string_from_string(String table, String where, String where_var, String field)
+    public String get_field_where(String table, String where, String where_var, String field)
     {
         String s = null;
 
@@ -189,4 +189,23 @@ public class MySQLAccess {
         return id;
     }
 
+    
+    
+    public void update_string_from_id(String table, int id, String where, String value)
+    {
+        String sql_cmd = "UPDATE " + table +" SET " + where+ "='" + value +"' WHERE id=" + Integer.toString(id);
+        
+        try
+        {
+            Statement st = conn.createStatement();
+            int rs = st.executeUpdate(sql_cmd);
+        }
+        catch(Exception e)
+        {
+            System.out.println(" update id "  + Integer.toString(id) + " Field Error");
+            e.printStackTrace();
+        }
+        System.out.print(sql_cmd);
+        
+    }
 }

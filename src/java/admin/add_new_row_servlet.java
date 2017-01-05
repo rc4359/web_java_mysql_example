@@ -1,3 +1,7 @@
+package admin;
+
+
+
 
 
 
@@ -22,7 +26,7 @@ import mysql_func.macros.database_define;
  *
  * @author richard
  */
-@WebServlet(urlPatterns = {"/add_new_row_servlet"})
+@WebServlet(urlPatterns = {"/admin/add_new_row_servlet"})
 public class add_new_row_servlet extends HttpServlet {
 
     /**
@@ -38,6 +42,8 @@ public class add_new_row_servlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        
+            /*  Create a new row with empty content */
            int new_id = 0;
            MySQLAccess sql_acc = new MySQLAccess();
            
@@ -46,6 +52,41 @@ public class add_new_row_servlet extends HttpServlet {
         
            new_id = sql_acc.get_newest_row_id(database_define.DB_PRIVATE_KEY_ID);
             System.out.print(" ---   Add_new_Servlet  post -- ");
+            
+            
+            /* Update all field each by each */
+            
+            
+             String uname = request.getParameter("uname");
+             String pwd = request.getParameter("pwd");
+             String mail = request.getParameter("email");
+             String web = request.getParameter("web");
+             String born_date = request.getParameter("born_date");
+             String summary = request.getParameter("summary");
+             String comments = request.getParameter("comments");
+             
+             
+             sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
+                    database_define.DB_USER_FIELD, uname);
+             
+             sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
+                    database_define.DB_PWD_FIELD, pwd);
+             
+             sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
+                    database_define.DB_MAIL_FIELD, mail);
+             
+             sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
+                    database_define.DB_WEBPAGE_FIELD, web);
+             
+             sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
+                    database_define.DB_DATUM_FIELD, born_date);     
+             
+             sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
+                    database_define.DB_SUMMARY_FIELD, summary);     
+             
+             sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
+                    database_define.DB_COMMENTS_FIELD, comments);               
+             
             
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */

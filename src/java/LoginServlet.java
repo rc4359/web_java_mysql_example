@@ -62,8 +62,8 @@ public class LoginServlet extends HttpServlet {
             
                     //sql_ac.retrive_string_from_integer()
                     String db_password  = 
-                          //  sql_ac.retrieve_string_from_string("comments", "MYUSER", username, "password");
-                              sql_ac.retrieve_string_from_string(database_define.DB_TBALE, database_define.DB_USER_FIELD, 
+                       
+                              sql_ac.get_field_where(database_define.DB_TBALE, database_define.DB_USER_FIELD, 
                                       username, database_define.DB_PWD_FIELD);                            
                  
                     System.out.print(" db_password --> " + db_password + "input pass -->" + password);

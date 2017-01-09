@@ -26,8 +26,8 @@ import mysql_func.macros.database_define;
  *
  * @author richard
  */
-@WebServlet(urlPatterns = {"/admin/add_new_row_servlet"})
-public class add_new_row_servlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/admin/add_new_member_servlet"})
+public class add_new_member_servlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,6 +45,14 @@ public class add_new_row_servlet extends HttpServlet {
         
             /*  Create a new row with empty content */
            int new_id = 0;
+             String uname = "";
+             String pwd = "";
+             String mail = "";
+             String web = "";
+             String born_date = "";
+             String summary = "";
+             String comments = "";
+             
            MySQLAccess sql_acc = new MySQLAccess();
            
            sql_acc.select_db(database_define.DB_NAME);
@@ -56,16 +64,17 @@ public class add_new_row_servlet extends HttpServlet {
             
             /* Update all field each by each */
             
+            try{
             
-             String uname = request.getParameter("uname");
-             String pwd = request.getParameter("pwd");
-             String mail = request.getParameter("email");
-             String web = request.getParameter("web");
-             String born_date = request.getParameter("born_date");
-             String summary = request.getParameter("summary");
-             String comments = request.getParameter("comments");
+              uname = request.getParameter("uname");
+              pwd = request.getParameter("pwd");
+              mail = request.getParameter("mail");
+              web = request.getParameter("web");
+              born_date = request.getParameter("born_date");
+              summary = request.getParameter("summary");
+              comments = request.getParameter("comments");
              
-             
+             /*
              sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
                     database_define.DB_USER_FIELD, uname);
              
@@ -85,8 +94,14 @@ public class add_new_row_servlet extends HttpServlet {
                     database_define.DB_SUMMARY_FIELD, summary);     
              
              sql_acc.update_string_from_id(database_define.DB_TBALE, new_id,
-                    database_define.DB_COMMENTS_FIELD, comments);               
-             
+                    database_define.DB_COMMENTS_FIELD, comments);       
+              */
+            }
+            catch(Exception e)
+            {
+                System.out.println(" Error : add row java action !!");
+                e.printStackTrace();
+            }
             
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -96,8 +111,18 @@ public class add_new_row_servlet extends HttpServlet {
             out.println("<title>Servlet add_new_row_servlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet add_new_row_servlet at " + request.getContextPath() + "</h1>");
-            out.println("<h1> new number id is" + Integer.toString(new_id) +"</h1>");
+            out.println("<h1 align=\"center\">Servlet add_new_row_servlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1 align=\"center\"> new number id is" + Integer.toString(new_id) +"</h1>");
+            
+            out.println("<h2 align=\"center\" style=\"color:blue;\"> name :" + uname + "</h2>");
+            out.println("<h2 align=\"center\" style=\"color:blue;\"> password :" + pwd + "</h2>");
+            out.println("<h2 align=\"center\" style=\"color:blue;\"> mail :" + mail + "</h2>");
+            out.println("<h2 align=\"center\" style=\"color:blue;\"> web site :" + web + "</h2>");
+            out.println("<h2 align=\"center\" style=\"color:blue;\"> born_date :" + born_date + "</h2>");
+            out.println("<h2 align=\"center\" style=\"color:blue;\"> summary :" + summary + "</h2>");
+            out.println("<h2 align=\"center\" style=\"color:blue;\"> comments :" + comments + "</h2>");
+            
+            
             out.println("</body>");
             out.println("</html>");
         }

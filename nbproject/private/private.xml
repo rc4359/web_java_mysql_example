@@ -4,16 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/web/index.html</file>
-            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/LoginServlet.java</file>
+            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/web/admin_func/add_new_member.html</file>
             <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/mysql_func/MySQLAccess.java</file>
             <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/conf/MANIFEST.MF</file>
-            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/web/admin_func/add_new_row.html</file>
+            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/admin/check_add_new_member.java</file>
             <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/mysql_func/macros/database_define.java</file>
             <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/web/welcome.html</file>
             <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/web/admin_func/admin.html</file>
-            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/web/auth_fail.html</file>
+            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/admin/empty_test.java</file>
             <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/nbproject/build-impl.xml</file>
-            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/add_new_row_servlet.java</file>
+            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/admin/add_new_member_servlet.java</file>
+            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/src/java/LoginServlet.java</file>
+            <file>file:/home/richard/NetBeansProjects/web_java_mysql_example/web/auth_fail.html</file>
         </group>
     </open-files>
 </project-private>

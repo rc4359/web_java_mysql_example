@@ -51,6 +51,14 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
                 
+                if((username.equalsIgnoreCase("lora")) 
+                        && (password.equalsIgnoreCase("lora"))
+                        )
+                {
+                    RequestDispatcher rd = request.getRequestDispatcher("lora/lora_main.html");
+                    rd.forward(request, response);
+                    return;
+                }
                 
                 
                 MySQLAccess sql_ac = new MySQLAccess();

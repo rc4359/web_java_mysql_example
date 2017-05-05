@@ -24,6 +24,6 @@ public class database_define {
     static public final String DB_DATUM_FIELD       =       "DATUM";
     static public final String DB_SUMMARY_FIELD     =       "SUMMARY";    
     static public final String DB_COMMENTS_FIELD    =       "COMMENTS";  
-    
-    
 }
+
+

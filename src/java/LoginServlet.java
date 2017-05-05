@@ -88,7 +88,8 @@ public class LoginServlet extends HttpServlet {
                     }
                     
                 }
-   
+                
+                sql_ac.db_close();
             
                     response.setContentType("text/html;charset=UTF-8");
                     try (PrintWriter out = response.getWriter()) 

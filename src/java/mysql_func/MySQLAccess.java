@@ -65,7 +65,7 @@ public class MySQLAccess {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(db_url, USER, PASS);
             
-            System.out.println("----- Database connected ------");       
+            System.out.println("----- Database"+ db_url + " connected ------");       
             return 1;
                    
         }
@@ -80,7 +80,7 @@ public class MySQLAccess {
     
     public boolean db_close() 
     {
-        if(conn != null)
+        if(conn == null)
         {
             System.out.println(" No Database connection to be close !! ");
             return false;
@@ -157,6 +157,41 @@ public class MySQLAccess {
         
        return id ;
          
+    }
+    
+    public int get_how_many_rows(String table)
+    {
+        int rows = 0;
+        
+        String sql_cmd = "SELECT * FROM " + table;
+        String sql_cmd2 = "SELECT COUNT(*) FROM " + table;
+        
+         try{
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql_cmd);
+            //rs = st.executeQuery(sql_cmd2);
+            
+            //rs.next();
+            //rows = rs.getInt(1);
+            //System.out.println(" tbale" + table + "has " + rows + "rows");
+            
+            while(rs.next()){
+                    System.out.println(rs.getObject(1).toString());
+                    System.out.println("\t\t\t");
+                    System.out.println(rs.getObject(2).toString());
+                    System.out.println(rs.getObject(3).toString());
+                    System.out.println(rs.getObject(4).toString());
+                    System.out.println("<br>");
+                    rows++;
+                }     
+            
+         }
+         catch(Exception e){
+            System.out.print(" check how many rows in table error !! ");
+            e.printStackTrace();
+         }
+        
+        return rows;
     }
     
     public int get_newest_row_id(String private_key_id)

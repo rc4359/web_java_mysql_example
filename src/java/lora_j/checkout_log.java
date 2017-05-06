@@ -7,6 +7,7 @@ package lora_j;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -74,8 +75,17 @@ public class checkout_log extends HttpServlet {
                         /* --------------------- */
                         
                         out.println("<h1> ------------------------------------------------ </h1>");
+                        out.println("<form action = \"checkout_log\" method = \"post\">");
+                        out.println("<input type=\"submit\" name=\"act\" value=\"update\"/>");
+                        out.println("<input type=\"submit\" name=\"act\" value=\"delete\"/>");
+                        out.println("</form>");
+                      
+                                              
                         out.println("</body>");
                         out.println("</html>");
+                        
+                        
+                        
                         }
     }
   
@@ -130,10 +140,22 @@ public class checkout_log extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-                int rows = retive_db_rows(lora_data_define.LORA_LOG_DEMO_TABLE);
-                
-                 lora_db_log_data l_db = new lora_db_log_data();
+        String act = request.getParameter("act");
+        if (act == null) {
+               System.out.println("---------- null --------");
+        } else if (act.equals("delete")) {
+                System.out.println("---------- delete --------");
+        } else if (act.equals("update")) {
+               System.out.println("---------- update  --------");
+         } else {
+               System.out.println("---------- something else --------");
+        }
+                int to_jsp = 0;
+                lora_db_log_data l_db = new lora_db_log_data();
                 int column = l_db.get_has_columns();
+                int rows = retive_db_rows(lora_data_define.LORA_LOG_DEMO_TABLE);
+                String [] db_string = new String[rows * column];
+                
                 
                 if( rows > 0)  
                 {
@@ -141,7 +163,7 @@ public class checkout_log extends HttpServlet {
                     
                         /* prepare buffer for retive logs */
                        System.out.println("rows * column --> " + rows * column);
-                        String [] db_string = new String[rows * column];
+                        
                         
                         int row_to_show = retrive_db_string(lora_data_define.LORA_LOG_DEMO_TABLE,
                                 rows, column, db_string);
@@ -149,7 +171,10 @@ public class checkout_log extends HttpServlet {
                         if(row_to_show > 0)
                         {
                             show_db_string(db_string, row_to_show, column, response);
+                            to_jsp = 0;
                         }
+            
+               
                         
                 }
                 else
@@ -169,7 +194,13 @@ public class checkout_log extends HttpServlet {
                         }
                 }
         
-        
+                if(to_jsp == 1)
+                {
+                        RequestDispatcher requestDispatcher = request
+                                .getRequestDispatcher("/lora/logjsp.jsp");
+                         requestDispatcher.forward(request, response);
+                    
+                }
        
     }
 

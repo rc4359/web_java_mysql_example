@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mysql_func.MySQLAccess;
+import mysql_func.macros.lora_db_log_data;
 
 /**
  *
@@ -21,7 +22,101 @@ import mysql_func.MySQLAccess;
 @WebServlet(name = "checkout_log", urlPatterns = {"/lora_j/checkout_log"})
 public class checkout_log extends HttpServlet {
 
+    
+    
+    
+    public void show_db_string (String[] str, int rows, int column, HttpServletResponse response)
+        throws ServletException, IOException{
+        response.setContentType("text/html;charset=UTF-8");
+        
+        int show_row = 0;
+        int show_column = 0;
+        String html_line;
+        
+         try (PrintWriter out = response.getWriter()) {
+                        /* TODO output your page here. You may use following sample code. */
+                        out.println("<!DOCTYPE html>");
+                        out.println("<html>");
+                        out.println("<head>");
+                        out.println("<title>Servlet checkout_log</title>");            
+                        out.println("</head>");
+                        out.println("<body>");
+                        out.println("<h1>Servlet checkout_log </h1>");
+                        out.println("<h1> ------------------------------------------------ </h1>");
+                        /*  start show log */
+                        
+                        System.out.println("rows --> " + rows);
+                        System.out.println("column --> " + column);
+                        
+                        while(show_row < rows)
+                        {
+                            html_line = "";
+                            show_column = 0;
+                            while(show_column < column)
+                            {
+                                int array_index = (show_column + (show_row * column));
+                                html_line += "---";
+                                html_line += str[array_index];
+                                
+                                show_column++;
+                                //System.out.println("array_index --> " + array_index);
+                                //System.out.println("show_column --> " + show_column);
+                                //System.out.println("show_row --> " + show_row);
+                                
+                            }
+                            out.println("<h1>" + html_line + "</h1>");
+                            show_row++;
+                               
+                           
+                        }
+                        //System.out.println("end -- show_row --> " + show_row);
+                         
+                        /* --------------------- */
+                        
+                        out.println("<h1> ------------------------------------------------ </h1>");
+                        out.println("</body>");
+                        out.println("</html>");
+                        }
+    }
   
+    
+    public int retrive_db_string(String table, int rows, int column, String[] db_string)
+    {
+    
+        int ret = 0;
+        
+        MySQLAccess sql_ac = new MySQLAccess();
+            
+        sql_ac.select_db(lora_data_define.LORA_LOG_BD);
+            
+        if(sql_ac.db_connect() == 1)
+        {    
+            ret =  sql_ac.get_table_string(table, rows, column, db_string);
+        }
+        sql_ac.db_close();
+        //System.out.println(" db_string --> "+ db_string[0] + db_string[1] + db_string[2] +db_string[3]);
+       // System.out.println(" db_string --> "+ db_string[4] + db_string[5] + db_string[6] +db_string[7]);
+        return ret;
+    }
+    
+    public int retive_db_rows(String table)
+    {
+        int rows = 0;
+        
+        MySQLAccess sql_ac = new MySQLAccess();
+            
+        sql_ac.select_db(lora_data_define.LORA_LOG_BD);
+            
+        if(sql_ac.db_connect() == 1)
+        {    
+            rows = sql_ac.get_how_many_rows(table);
+            sql_ac.db_close();
+                    
+            System.out.println(" tbale" + lora_data_define.LORA_LOG_BD + "has " + rows + "rows");
+        }
+        
+        return rows;
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,17 +130,27 @@ public class checkout_log extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-                MySQLAccess sql_ac = new MySQLAccess();
-            
-                sql_ac.select_db(lora_data_define.LORA_LOG_BD);
-            
-                if(sql_ac.db_connect() == 1)
-                {    
-                    int rows = sql_ac.get_how_many_rows(lora_data_define.LORA_LOG_DEMO_TABLE);
-                    sql_ac.db_close();
+                int rows = retive_db_rows(lora_data_define.LORA_LOG_DEMO_TABLE);
+                
+                 lora_db_log_data l_db = new lora_db_log_data();
+                int column = l_db.get_has_columns();
+                
+                if( rows > 0)  
+                {
+                        /* has some log in database */
                     
-                    System.out.println(" tbale" + "has " + rows + "rows");
-                    
+                        /* prepare buffer for retive logs */
+                       System.out.println("rows * column --> " + rows * column);
+                        String [] db_string = new String[rows * column];
+                        
+                        int row_to_show = retrive_db_string(lora_data_define.LORA_LOG_DEMO_TABLE,
+                                rows, column, db_string);
+                        
+                        if(row_to_show > 0)
+                        {
+                            show_db_string(db_string, row_to_show, column, response);
+                        }
+                        
                 }
                 else
                 {
@@ -106,5 +211,9 @@ public class checkout_log extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void get_table_string(String table, int rows, int rows0, String[] db_string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

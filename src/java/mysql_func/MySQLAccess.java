@@ -169,21 +169,13 @@ public class MySQLAccess {
          try{
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql_cmd);
-            //rs = st.executeQuery(sql_cmd2);
+            rs = st.executeQuery(sql_cmd2);
             
-            //rs.next();
-            //rows = rs.getInt(1);
-            //System.out.println(" tbale" + table + "has " + rows + "rows");
+            rs.next();
+            rows = rs.getInt(1);
+            System.out.println(" tbale" + table + "has " + rows + "rows");
             
-            while(rs.next()){
-                    System.out.println(rs.getObject(1).toString());
-                    System.out.println("\t\t\t");
-                    System.out.println(rs.getObject(2).toString());
-                    System.out.println(rs.getObject(3).toString());
-                    System.out.println(rs.getObject(4).toString());
-                    System.out.println("<br>");
-                    rows++;
-                }     
+            
             
          }
          catch(Exception e){
@@ -192,6 +184,54 @@ public class MySQLAccess {
          }
         
         return rows;
+    }
+    
+    public int get_table_string(String table, int rows, int column, String[] result)
+    {
+        int rows_cnt = 0;
+        int column_cnt = 0;
+        
+        String sql_cmd = "SELECT * FROM " + table;
+        String sql_cmd2 = "SELECT COUNT(*) FROM " + table;
+        
+         try{
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql_cmd);
+            
+            
+            //while(rs.next()){
+            while(rs.next() && rows_cnt < rows)
+            {
+                    column_cnt = 0;
+                    
+                    while(column_cnt < column)
+                    {
+                        int array_index = (column_cnt + (rows_cnt * column));
+                        result[array_index] = rs.getObject(column_cnt + 1).toString();
+                     //   System.out.println("column --> " + column);
+                     //   System.out.println("rows --> " + rows);
+                     //   System.out.println("column_cnt --> " + column_cnt);
+                     //   System.out.println("rows_cnt --> " + rows_cnt);
+                        //System.out.println("column_cnt + (rows_cnt * column) --> " + array_index);
+                        
+                      //  System.out.println("result --- " + array_index + "::" + result[array_index]);
+                        column_cnt++;
+                    }
+                  //  System.out.println(rs.getObject(1).toString());
+                  //  System.out.println(rs.getObject(2).toString());
+                 //   System.out.println(rs.getObject(3).toString());
+                 //   System.out.println(rs.getObject(4).toString());
+                   
+                    rows_cnt++;
+            }     
+            
+         }
+         catch(Exception e){
+            System.out.print(" check how many rows in table error !! ");
+            e.printStackTrace();
+         }
+        
+        return rows_cnt;
     }
     
     public int get_newest_row_id(String private_key_id)

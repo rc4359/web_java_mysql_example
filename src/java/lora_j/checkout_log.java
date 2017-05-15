@@ -39,7 +39,11 @@ public class checkout_log extends HttpServlet {
                         out.println("<!DOCTYPE html>");
                         out.println("<html>");
                         out.println("<head>");
-                        out.println("<title>Servlet checkout_log</title>");            
+                        out.println("<title>Servlet checkout_log</title>"); 
+                        
+                        out.println("<style>");
+                        out.println(".button {background-color: #4CAF50;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;}");
+                        out.println("</style>");
                         out.println("</head>");
                         out.println("<body>");
                         out.println("<h1>Servlet checkout_log </h1>");
@@ -76,8 +80,8 @@ public class checkout_log extends HttpServlet {
                         
                         out.println("<h1> ------------------------------------------------ </h1>");
                         out.println("<form action = \"checkout_log\" method = \"post\">");
-                        out.println("<input type=\"submit\" name=\"act\" value=\"update\"/>");
-                        out.println("<input type=\"submit\" name=\"act\" value=\"delete\"/>");
+                        out.println("<input type=\"submit\" class=\"button\" name=\"act\" value=\"update\"/>");
+                        out.println("<input type=\"submit\" class=\"button\" name=\"act\" value=\"delete\"/>");
                         out.println("</form>");
                       
                                               
@@ -155,6 +159,11 @@ public class checkout_log extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        response.setIntHeader("Refresh", 5);
+ 
+        // Set response content type
+        //response.setContentType("text/html");
+      
         String act = request.getParameter("act");
         if (act == null) {
                System.out.println("---------- null --------");

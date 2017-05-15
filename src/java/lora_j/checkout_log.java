@@ -122,10 +122,25 @@ public class checkout_log extends HttpServlet {
             rows = sql_ac.get_how_many_rows(table);
             sql_ac.db_close();
                     
-            System.out.println(" tbale" + lora_data_define.LORA_LOG_BD + "has " + rows + "rows");
+            System.out.println(" [retive_db_rows] : tbale" + lora_data_define.LORA_LOG_BD + "has " + rows + "rows");
         }
         
         return rows;
+    }
+    
+    
+    private void delete_log()
+    {
+        MySQLAccess sql_ac = new MySQLAccess();
+            
+        sql_ac.select_db(lora_data_define.LORA_LOG_BD);
+            
+        if(sql_ac.db_connect() == 1)
+        {    
+            sql_ac.delete_table(lora_data_define.LORA_LOG_DEMO_TABLE);
+            sql_ac.create_new_table();
+        }
+        sql_ac.db_close();
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -144,6 +159,7 @@ public class checkout_log extends HttpServlet {
         if (act == null) {
                System.out.println("---------- null --------");
         } else if (act.equals("delete")) {
+                delete_log();
                 System.out.println("---------- delete --------");
         } else if (act.equals("update")) {
                System.out.println("---------- update  --------");
@@ -154,11 +170,15 @@ public class checkout_log extends HttpServlet {
                 lora_db_log_data l_db = new lora_db_log_data();
                 int column = l_db.get_has_columns();
                 int rows = retive_db_rows(lora_data_define.LORA_LOG_DEMO_TABLE);
-                String [] db_string = new String[rows * column];
+                
+                
+                
+                System.out.println("--------- rows -------->" + rows );
                 
                 
                 if( rows > 0)  
                 {
+                       String [] db_string = new String[rows * column];
                         /* has some log in database */
                     
                         /* prepare buffer for retive logs */
@@ -176,6 +196,22 @@ public class checkout_log extends HttpServlet {
             
                
                         
+                }
+                else if(rows == 0)
+                {
+                    try (PrintWriter out = response.getWriter()) {
+                        /* TODO output your page here. You may use following sample code. */
+                        out.println("<!DOCTYPE html>");
+                        out.println("<html>");
+                        out.println("<head>");
+                        out.println("<title>Servlet checkout_log</title>");            
+                        out.println("</head>");
+                        out.println("<body>");
+                        out.println("<h1>Servlet checkout_log at " + request.getContextPath() + "</h1>");
+                        out.println("<h1> No log in database !! </h1>");
+                        out.println("</body>");
+                        out.println("</html>");
+                        }
                 }
                 else
                 {

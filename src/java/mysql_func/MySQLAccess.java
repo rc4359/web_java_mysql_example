@@ -118,7 +118,6 @@ public class MySQLAccess {
             while (rs.next()) 
             {                
                 s = rs.getString(field);
-      
             }
         }
         catch(Exception e)
@@ -181,9 +180,56 @@ public class MySQLAccess {
          catch(Exception e){
             System.out.print(" check how many rows in table error !! ");
             e.printStackTrace();
+            rows = -1;
          }
         
         return rows;
+    }
+    
+   // public int create_new_table(String table_name, String table_members)
+    public int create_new_table()
+    {
+       String sql_cmd = "CREATE TABLE `log1` (`sn` int(11) NOT NULL AUTO_INCREMENT,`addr` char(16) DEFAULT NULL,`sequence` char(8) DEFAULT NULL,`messages` char(255) DEFAULT NULL,PRIMARY KEY (`sn`))";
+       // String sql_cmd = "created table " + table_name +
+ //               "(sn integer auto_increment primary key," + table_members +");";
+         int id = 0;
+         try
+         {
+            System.out.print(sql_cmd);
+            Statement st = conn.createStatement();
+            id = st.executeUpdate(sql_cmd);
+            
+            return 0;
+         }
+          catch(Exception e)
+         {
+            System.out.print(" create_new_table  error !! ");
+            e.printStackTrace();
+            
+            return -1;
+         }
+ 
+    }
+    
+    public int delete_table(String table)
+    {
+        String sql_cmd = "drop table " + table;
+        int id = 0;
+         try
+         {
+            System.out.print(sql_cmd);
+            Statement st = conn.createStatement();
+            id = st.executeUpdate(sql_cmd);
+            
+            return 0;
+         }
+          catch(Exception e)
+         {
+            System.out.print(" Delete table " + table + " error !! ");
+            e.printStackTrace();
+            
+            return -1;
+         }
     }
     
     public int get_table_string(String table, int rows, int column, String[] result)

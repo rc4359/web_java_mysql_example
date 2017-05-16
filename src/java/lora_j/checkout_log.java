@@ -39,41 +39,54 @@ public class checkout_log extends HttpServlet {
                         out.println("<!DOCTYPE html>");
                         out.println("<html>");
                         out.println("<head>");
-                        out.println("<title>Servlet checkout_log</title>"); 
-                        
+                      //  out.println("<title>Servlet checkout_log</title>"); 
+                        out.println("<p style=\"background-color:#4CAF50;color:white;font-size:36px\";>Lora log</p>");
                         out.println("<style>");
                         out.println(".button {background-color: #4CAF50;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;}");
+                        out.println(".msg{color:blue; font-size:36px;}");
                         out.println("</style>");
                         out.println("</head>");
                         out.println("<body>");
-                        out.println("<h1>Servlet checkout_log </h1>");
-                        out.println("<h1> ------------------------------------------------ </h1>");
+                      //  out.println("<h1>Servlet checkout_log </h1>");
+                       // out.println("<h1> ------------------------------------------------ </h1>");
                         /*  start show log */
                         
-                        System.out.println("rows --> " + rows);
-                        System.out.println("column --> " + column);
-                        
+                       // out.println("rows --> " + rows);
+                      //  out.println("column --> " + column);
+                        out.println("<table style=\"width:80%; color:blue; font-size:28px\">");
+                        out.println("<tr>");
+                         out.println("<th>Sn</th>");
+                         out.println("<th>Device Address</th>");
+                          out.println("<th>sequence</th>");
+                          out.println("<th>message</th>");
+                           out.println("</tr>");
                         while(show_row < rows)
                         {
                             html_line = "";
                             show_column = 0;
+                            out.println("</tr>");
                             while(show_column < column)
                             {
                                 int array_index = (show_column + (show_row * column));
                                 html_line += "---";
                                 html_line += str[array_index];
-                                
+                                out.println("<th>" + str[array_index] + "</th>");
                                 show_column++;
                                 //System.out.println("array_index --> " + array_index);
                                 //System.out.println("show_column --> " + show_column);
                                 //System.out.println("show_row --> " + show_row);
                                 
                             }
-                            out.println("<h1>" + html_line + "</h1>");
+                           // out.println("<h1>" + html_line + "</h1>");
+                          
+
+  
+                            
                             show_row++;
                                
                            
                         }
+                        out.println("</table>");
                         //System.out.println("end -- show_row --> " + show_row);
                          
                         /* --------------------- */
@@ -199,7 +212,10 @@ public class checkout_log extends HttpServlet {
                         
                         if(row_to_show > 0)
                         {
-                            show_db_string(db_string, row_to_show, column, response);
+                           show_db_string(db_string, row_to_show, column, response);
+                           //String nextJSP = "/lora/show_table.jsp";
+                           //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+                            //dispatcher.forward(request,response);
                             to_jsp = 0;
                         }
             
